@@ -1,0 +1,22 @@
+import json
+
+
+def get_day():
+    subjects = [['1', '2', '3', '4', '5', '6'], ['a', 'b', 'c', 'd', 'e', 'f']]
+
+    k = {u'subjects': []}
+
+
+    for subject in subjects:
+        response = {
+            "parity": subject[0],
+            "type": subject[1],
+            "name": subject[2],
+            "teacher": subject[3],
+            "place": subject[4],
+            "other": subject[5]
+            # "time": "8:20-9:50"
+        }
+    return json.dumps(response, ensure_ascii=True, sort_keys = True)
+
+print get_day()
