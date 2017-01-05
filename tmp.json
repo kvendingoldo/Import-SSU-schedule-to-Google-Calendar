@@ -1,0 +1,52 @@
+{
+  "week_number": "1",
+  "days": [
+    {
+      "data": "01.10.2017",
+      "subjects": [
+        10,
+        {
+          "name": "4",
+          "other": "3",
+          "parity": "21",
+          "place": "6",
+          "subj_type": "2",
+          "teacher": "5"
+        },
+        {
+          "name": "d",
+          "other": "c",
+          "parity": "a",
+          "place": "f",
+          "subj_type": "b",
+          "teacher": "e"
+        }
+      ]
+    },
+    {
+      "data": "02.10.2017",
+      "subjects": [
+        10,
+        {
+          "name": "4",
+          "other": "3",
+          "parity": "21",
+          "place": "6",
+          "subj_type": "2",
+          "teacher": "5"
+        },
+        {
+          "name": "d",
+          "other": "c",
+          "parity": "a",
+          "place": "f",
+          "subj_type": "b",
+          "teacher": "e"
+        }
+      ]
+    }
+  ]
+}
+
+{u'days': [{u'subjects': [10, {u'parity': u'21', u'name': u'4', u'subj_type': u'2', u'other': u'3', u'place': u'6', u'teacher': u'5'}, {u'parity': u'a', u'name': u'd', u'subj_type': u'b', u'other': u'c', u'place': u'f', u'teacher': u'e'}], u'data': u'1.10'}, {u'subjects': [10, {u'parity': u'21', u'name': u'4', u'subj_type': u'2', u'other': u'3', u'place': u'6', u'teacher': u'5'}, {u'parity': u'a', u'name': u'd', u'subj_type': u'b', u'other': u'c', u'place': u'f', u'teacher': u'e'}], u'data': u'2.10'}], u'week_number': 1}
+

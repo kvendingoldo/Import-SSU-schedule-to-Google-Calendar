@@ -22,10 +22,12 @@ def get_time(response):
 
 
 def delete_html_tag(raw_html):
-    return re.sub(r'<.*?>','', raw_html)
+    return re.sub(r'<.*?>', '', raw_html)
+
 
 def get_elem_by_class(soup, class_name):
     return delete_html_tag(str((soup.findAll("div", {"class": class_name})[0])))
+
 
 def generate_schedule_matrix(url):
     request = urllib2.Request(url)
@@ -40,15 +42,21 @@ def generate_schedule_matrix(url):
         pattern = re.compile(r"<td\sclass=\"\"\sid=\"\d_\d\">(.+)</td>")
         if pattern.match(str(element)):
             soup = BeautifulSoup(str(element), "lxml")
-            parity = get_elem_by_class(soup, "l-pr-r")
-            subj_type = get_elem_by_class(soup, "l-pr-t")
-            other = get_elem_by_class(soup, "l-pr-g")
-            name = get_elem_by_class(soup, "l-dn")
-            teacher = get_elem_by_class(soup, "l-tn")
-            place = get_elem_by_class(soup, "l-p")
 
-            subject = np.empty((6, 1), dtype='|S256')
-            subject = [parity, subj_type, name, teacher, place, other]
+            subject = dict()
+
+            subject['parity'] = get_elem_by_class(soup, "l-pr-r")
+            subject['subj_type'] = get_elem_by_class(soup, "l-pr-t")
+            subject['other'] = get_elem_by_class(soup, "l-pr-g")
+            subject['name'] = get_elem_by_class(soup, "l-dn")
+            subject['teacher'] = get_elem_by_class(soup, "l-tn")
+            subject['place'] = get_elem_by_class(soup, "l-p")
+
+            print subject
+
+            # subject = np.empty((6, 1), dtype='|S256')
+            # subject = [parity, subj_type, name, teacher, place, other]
+            # subject = dict(parity=parity, , name=name, teacher=teacher, place=place, other=other)
 
             pattrn = re.compile(r'\d_\d')
             subject_number = "".join(pattrn.findall(str(element)))
