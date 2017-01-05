@@ -46,17 +46,11 @@ def generate_schedule_matrix(url):
             subject = dict()
 
             subject['parity'] = get_elem_by_class(soup, "l-pr-r")
-            subject['subj_type'] = get_elem_by_class(soup, "l-pr-t")
+            subject['type'] = get_elem_by_class(soup, "l-pr-t")
             subject['other'] = get_elem_by_class(soup, "l-pr-g")
             subject['name'] = get_elem_by_class(soup, "l-dn")
             subject['teacher'] = get_elem_by_class(soup, "l-tn")
             subject['place'] = get_elem_by_class(soup, "l-p")
-
-            print subject
-
-            # subject = np.empty((6, 1), dtype='|S256')
-            # subject = [parity, subj_type, name, teacher, place, other]
-            # subject = dict(parity=parity, , name=name, teacher=teacher, place=place, other=other)
 
             pattrn = re.compile(r'\d_\d')
             subject_number = "".join(pattrn.findall(str(element)))
@@ -74,6 +68,6 @@ SCHEDULE_MATRIX = generate_schedule_matrix("http://www.sgu.ru/schedule/mm/do/313
 for row in SCHEDULE_MATRIX:
     for elem in row:
         for item in elem:
-            print item
+            print item, ":", elem[item]
         print '\n'
     print()

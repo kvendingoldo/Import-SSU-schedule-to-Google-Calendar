@@ -4,7 +4,7 @@ subjects = []
 subj = dict()
 
 subj['parity'] = '21'
-subj['subj_type'] = '2'
+subj['type'] = '2'
 subj['other'] = '3'
 subj['name'] = '4'
 subj['teacher'] = '5'
@@ -14,7 +14,7 @@ subjects.append(subj)
 subj = dict()
 
 subj['parity'] = 'a'
-subj['subj_type'] = 'b'
+subj['type'] = 'b'
 subj['other'] = 'c'
 subj['name'] = 'd'
 subj['teacher'] = 'e'
@@ -23,9 +23,10 @@ subj['place'] = 'f'
 subjects.append(subj)
 
 
-def get_day(data):
+def get_day(date):
     response = dict()
-    response[u'data'] = data
+    # response[u'status'] = "success" # add error
+    response[u'date'] = date
     response[u'subjects'] = list()
     subjects_number = 10
     response['subjects'].append(subjects_number)
@@ -54,5 +55,20 @@ def get_dates(week):
     return "null"
 
 
+def error_response(status):
+    error = dict()
+    error['status'] = status
+    # error['detail']
+
+    response = dict()
+    response[u'errors'] = list()
+
+    response[u'errors'].append(error)
+
+    return response
+
+
 # print get_day('01.10.2017')
 print get_week(1)
+
+print error_response("404")

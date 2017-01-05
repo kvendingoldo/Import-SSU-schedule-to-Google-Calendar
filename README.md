@@ -7,3 +7,5 @@ Requirements:
 * Python 2.6 or greater
 
 ###### https://developers.google.com/google-apps/calendar/quickstart/python
+
+###### http://jsonapi.org/examples/
