@@ -1,74 +1,48 @@
 import json
 
-subjects = []
-subj = dict()
 
-subj['parity'] = '21'
-subj['type'] = '2'
-subj['other'] = '3'
-subj['name'] = '4'
-subj['teacher'] = '5'
-subj['place'] = '6'
-
-subjects.append(subj)
-subj = dict()
-
-subj['parity'] = 'a'
-subj['type'] = 'b'
-subj['other'] = 'c'
-subj['name'] = 'd'
-subj['teacher'] = 'e'
-subj['place'] = 'f'
-
-subjects.append(subj)
-
-
-def get_day(date):
-    response = dict()
-    # response[u'status'] = "success" # add error
-    response[u'date'] = date
-    response[u'subjects'] = list()
-    subjects_number = 10
-    response['subjects'].append(subjects_number)
+def get_day(date, with_response=True):
+    inside = dict()
+    inside[u'date'] = date
+    inside[u'subjects'] = list()
 
     for subject in subjects:
-        response['subjects'].append(subject)
-    return json.dumps(response, ensure_ascii=True, sort_keys=True)
+        inside['subjects'].append(subject)
+
+    if with_response:
+        response = dict()
+        response[u'response'] = inside
+        return json.dumps(response, ensure_ascii=True, sort_keys=True)
+    else:
+        return json.dumps(inside, ensure_ascii=True, sort_keys=True)
 
 
 def get_week(week_number):
     response = dict()
-    response[u'week_number'] = week_number
-    response[u'days'] = list()
+    days = dict()
+    days[u'week'] = week_number
+    days[u'days'] = list()
+    response[u'response'] = days
 
-    # function for get dates
-
-    dates = ["1.10", "2.10"]
+    dates = ["1.10", "2.10"]  # replace to get_dates(week)
 
     for date in dates:
-        response['days'].append(json.loads(get_day(date)))
+        days[u'days'].append(json.loads(get_day(date, False)))
 
-    return response
+    return json.dumps(response, ensure_ascii=True, sort_keys=True)
 
 
 def get_dates(week):
-    return "null"
+    # calculate
+    return []
 
 
-def error_response(status):
+def error_response(code):
     error = dict()
-    error['status'] = status
-    # error['detail']
+    error['error_code'] = code
+    generated_msg = ""
+    error['error_msg'] = generated_msg
 
     response = dict()
-    response[u'errors'] = list()
-
-    response[u'errors'].append(error)
-
-    return response
-
-
-# print get_day('01.10.2017')
-print get_week(1)
-
-print error_response("404")
+    response[u'error'] = error
+    return json.dumps(response, ensure_ascii=True, sort_keys=True)

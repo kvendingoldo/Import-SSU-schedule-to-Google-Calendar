@@ -1,49 +1,23 @@
 {
-  "week_number": "1",
-  "days": [
-    {
-      "data": "01.10.2017",
-      "subjects": [
-        10,
-        {
-          "name": "4",
-          "other": "3",
-          "parity": "21",
-          "place": "6",
-          "subj_type": "2",
-          "teacher": "5"
-        },
-        {
-          "name": "d",
-          "other": "c",
-          "parity": "a",
-          "place": "f",
-          "subj_type": "b",
-          "teacher": "e"
-        }
-      ]
-    },
-    {
-      "data": "02.10.2017",
-      "subjects": [
-        10,
-        {
-          "name": "4",
-          "other": "3",
-          "parity": "21",
-          "place": "6",
-          "subj_type": "2",
-          "teacher": "5"
-        },
-        {
-          "name": "d",
-          "other": "c",
-          "parity": "a",
-          "place": "f",
-          "subj_type": "b",
-          "teacher": "e"
-        }
-      ]
-    }
-  ]
+  "response": {
+    "date": 1,
+    "subjects": [
+      {
+        "name": "4",
+        "other": "3",
+        "parity": "21",
+        "place": "6",
+        "teacher": "5",
+        "type": "2"
+      },
+      {
+        "name": "d",
+        "other": "c",
+        "parity": "a",
+        "place": "f",
+        "teacher": "e",
+        "type": "b"
+      }
+    ]
+  }
 }
