@@ -1,0 +1,23 @@
+{
+  "response": {
+    "date": 1,
+    "subjects": [
+      {
+        "name": "4",
+        "other": "3",
+        "parity": "21",
+        "place": "6",
+        "teacher": "5",
+        "type": "2"
+      },
+      {
+        "name": "d",
+        "other": "c",
+        "parity": "a",
+        "place": "f",
+        "teacher": "e",
+        "type": "b"
+      }
+    ]
+  }
+}

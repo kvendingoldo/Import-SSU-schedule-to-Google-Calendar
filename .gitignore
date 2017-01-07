@@ -70,6 +70,8 @@ hs_err_pid*
 *.pem
 *.p12
 *.iml
+test_data.py
+tmp.json
 cookies.txt
 .idea
 .DS_Store
