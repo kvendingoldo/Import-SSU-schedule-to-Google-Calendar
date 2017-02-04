@@ -1,7 +1,7 @@
 #!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
 
-import urllib.request as urllib2
+import urllib.request as ulib
 import re
 from bs4 import BeautifulSoup
 import numpy as np
@@ -30,9 +30,9 @@ def get_elem_by_class(soup, class_name):
 
 
 def generate_schedule_matrix(url):
-    request = urllib2.Request(url)
+    request = ulib.Request(url)
     request.add_header('Accept-Encoding', 'utf-8')
-    response = urllib2.urlopen(request)
+    response = ulib.urlopen(request)
     soup = BeautifulSoup(response, "lxml")
     raw_data = soup.find_all('td', {'id': re.compile(r'\d_\d')})
     matrix = np.empty((10, 7), dtype=object)
@@ -48,12 +48,6 @@ def generate_schedule_matrix(url):
             subject['parity'] = get_elem_by_class(soup, "l-pr-r")
             subject['type'] = get_elem_by_class(soup, "l-pr-t")
             subject['other'] = get_elem_by_class(soup, "l-pr-g")
-
-            #if subject['other'] != "":
-            #    subject['extra_subject'] = True
-            #else:
-            #    subject['extra_subject'] = False
-
             subject['name'] = get_elem_by_class(soup, "l-dn")
             subject['teacher'] = get_elem_by_class(soup, "l-tn")
             subject['place'] = get_elem_by_class(soup, "l-p")

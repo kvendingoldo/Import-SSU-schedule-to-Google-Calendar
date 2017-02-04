@@ -1,15 +1,14 @@
-#!/usr/bin/env python
+#!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-import httplib2
 import os
+import httplib2
 
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
-
 
 try:
     import argparse
@@ -17,7 +16,8 @@ try:
 except ImportError:
     flags = None
 
-# If modifying these scopes, delete your previously saved credentials at ~/.credentials/calendar-python-quickstart.json
+# If modifying these scopes, delete your previously saved credentials
+# at ~/.credentials/calendar-python-quickstart.json
 # We can use https://www.googleapis.com/auth/calendar.readonly for readonly mode
 SCOPES = 'https://www.googleapis.com/auth/calendar'
 CLIENT_SECRET_FILE = 'client_secret.json'
@@ -78,4 +78,4 @@ def insert(summary, location, desc, start_time, end_time, timezone='Europe/Samar
     }
 
     event = service.events().insert(calendarId='primary', body=event).execute()
-    print('Event created: %s' % (event.get('htmlLink')))
+    print('[INFO] Event created: %s' % (event.get('htmlLink')))
