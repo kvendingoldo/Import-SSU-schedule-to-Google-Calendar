@@ -70,11 +70,10 @@ hs_err_pid*
 *.pem
 *.p12
 *.iml
-test_data.py
-tmp.json
-client_secret.json
 cookies.txt
 .idea
 .DS_Store
 *-overriding.properties
-.json
+*.json
+*.pyc
+__pycache__
