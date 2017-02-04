@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
 
-import urllib2
+import urllib.request as urllib2
 import re
 from bs4 import BeautifulSoup
 import numpy as np
@@ -18,7 +18,7 @@ def get_time(response):
         for match in soup.findAll(tag):
             match.replaceWithChildren()
 
-    print re.sub(r'<br/>', '-', str(soup))
+    print(re.sub(r'<br/>', '-', str(soup)))
 
 
 def delete_html_tag(raw_html):

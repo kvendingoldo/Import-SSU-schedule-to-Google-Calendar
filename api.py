@@ -15,9 +15,9 @@ def get_day(subjects, with_response=True):
     if with_response:
         response = dict()
         response[u'response'] = inside
-        return json.dumps(response, ensure_ascii=True, sort_keys=True).decode('unicode-escape').encode('utf8')
+        return json.dumps(response, ensure_ascii=True, sort_keys=True).encode('utf8').decode('unicode-escape')
     else:
-        return json.dumps(inside, ensure_ascii=True, sort_keys=True).decode('unicode-escape').encode('utf8')
+        return json.dumps(inside, ensure_ascii=True, sort_keys=True).encode('utf8').decode('unicode-escape')
 
 
 def get_week(raw_week_data):
@@ -32,7 +32,7 @@ def get_week(raw_week_data):
     for date in range(1, 7):
         days[u'days'].append(json.loads(get_day(raw_week_data[date], False)))
 
-    return json.dumps(response, ensure_ascii=True, sort_keys=True).decode('unicode-escape').encode('utf8')
+    return json.dumps(response, ensure_ascii=True, sort_keys=True).encode('utf8').decode('unicode-escape')
 
 
 def get_dates(week):

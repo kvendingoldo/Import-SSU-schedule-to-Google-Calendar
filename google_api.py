@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from __future__ import print_function
 import httplib2
@@ -8,7 +10,6 @@ from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 
-import datetime
 
 try:
     import argparse
@@ -16,10 +17,9 @@ try:
 except ImportError:
     flags = None
 
-# If modifying these scopes, delete your previously saved credentials
-# at ~/.credentials/calendar-python-quickstart.json
+# If modifying these scopes, delete your previously saved credentials at ~/.credentials/calendar-python-quickstart.json
+# We can use https://www.googleapis.com/auth/calendar.readonly for readonly mode
 SCOPES = 'https://www.googleapis.com/auth/calendar'
-         #.readonly'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 
@@ -38,57 +38,44 @@ def get_credentials():
         flow.user_agent = APPLICATION_NAME
         if flags:
             credentials = tools.run_flow(flow, store, flags)
-        else: # Needed only for compatibility with Python 2.6
+        else:  # Needed only for compatibility with Python 2.6
             credentials = tools.run(flow, store)
         print('Storing credentials to ' + credential_path)
     return credentials
 
-def main():
-    """Shows basic usage of the Google Calendar API.
 
-    Creates a Google Calendar API service object and outputs a list of the next
-    10 events on the user's calendar.
-    """
-
+def insert(summary, location, desc, start_time, end_time, timezone='Europe/Samara'):
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
 
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-
-    #print(now)
-
     event = {
-        'summary': 'TEST',
-        'location': '800 Howard St., San Francisco, CA 94103',
-        'description': 'A chance to hear more about Google\'s developer products.',
+        'summary': summary,
+        'location': location,
+        'description': desc,
         'start': {
-            'dateTime': '2017-02-04T18:44:52.775037Z',
-            'timeZone': 'America/Los_Angeles',
+            'dateTime': start_time,
+            'timeZone': timezone,
         },
         'end': {
-            'dateTime': '2017-02-04T19:44:52.775037Z',
-            'timeZone': 'America/Los_Angeles',
+            'dateTime': end_time,
+            'timeZone': timezone,
         },
         'recurrence': [
-            'RRULE:FREQ=DAILY;COUNT=2'
+            # 'RRULE:FREQ=DAILY;COUNT=2'
         ],
         'attendees': [
-            {'email': 'lpage@example.com'},
-            {'email': 'sbrin@example.com'},
+            # {'email': 'kvendingoldo@gmail.com'},
+            # {'email': 'kvendingoldo@gmail.com'},
         ],
         'reminders': {
             'useDefault': False,
             'overrides': [
-                {'method': 'email', 'minutes': 24 * 60},
-                {'method': 'popup', 'minutes': 10},
+                # {'method': 'email', 'minutes': 24 * 60},
+                # {'method': 'popup', 'minutes': 10},
             ],
         },
     }
 
     event = service.events().insert(calendarId='primary', body=event).execute()
     print('Event created: %s' % (event.get('htmlLink')))
-
-
-if __name__ == '__main__':
-    main()
