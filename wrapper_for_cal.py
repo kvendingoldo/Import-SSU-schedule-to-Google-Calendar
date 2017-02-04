@@ -1,21 +1,25 @@
 #!/usr/bin/python3.5
 #  -*- coding: utf-8 -*-
 
-import json
 import datetime
+import json
+
 import google_api as ga
 
+with open('config.json', 'r') as conf_file:
+    config = json.load(conf_file)
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
+
+def get_parity():
+    return "числ."
+
 
 def get_subject_time(day_number, subj_number):
-
     start_time = 0
     end_time = 0
 
     date = datetime.datetime.now().date()
-    day = str(date + datetime.timedelta(day_number+7-date.weekday()))+"T"
+    day = str(date + datetime.timedelta(day_number + 7 - date.weekday())) + "T"
 
     if subj_number == 1:
         start_time = day + "08:20:00.000000"
@@ -48,6 +52,14 @@ def get_subject_time(day_number, subj_number):
 
 
 def put_to_calc_subj(subj, day_number, subj_number, put_extra_subject=False):
+    parity = get_parity()
+
+    if 'couple' in subj:
+        if parity == "числ.":
+            subj = (subj['couple'])[0]
+        else:
+            subj = (subj['couple'])[1]
+
     summary = subj['name'] + " (" + subj['type'] + ")"
     location = subj['place']
     desc = subj['teacher']
@@ -66,6 +78,7 @@ def put_to_calc_subj(subj, day_number, subj_number, put_extra_subject=False):
         ga.insert(summary, location, color, desc, start_time, end_time, timezone='Europe/Samara')
 
     if put_extra_subject:
+        # add specializations
         ga.insert(summary, location, color, desc, start_time, end_time, timezone='Europe/Samara')
 
 
