@@ -48,6 +48,12 @@ def generate_schedule_matrix(url):
             subject['parity'] = get_elem_by_class(soup, "l-pr-r")
             subject['type'] = get_elem_by_class(soup, "l-pr-t")
             subject['other'] = get_elem_by_class(soup, "l-pr-g")
+
+            #if subject['other'] != "":
+            #    subject['extra_subject'] = True
+            #else:
+            #    subject['extra_subject'] = False
+
             subject['name'] = get_elem_by_class(soup, "l-dn")
             subject['teacher'] = get_elem_by_class(soup, "l-tn")
             subject['place'] = get_elem_by_class(soup, "l-p")
@@ -61,13 +67,3 @@ def generate_schedule_matrix(url):
             pass
             # print "skip" # write to log
     return matrix.transpose()
-
-
-SCHEDULE_MATRIX = generate_schedule_matrix("http://www.sgu.ru/schedule/mm/do/313")
-
-for row in SCHEDULE_MATRIX:
-    for elem in row:
-        for item in elem:
-            print item, ":", elem[item]
-        print '\n'
-    print()
