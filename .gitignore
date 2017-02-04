@@ -74,6 +74,6 @@ cookies.txt
 .idea
 .DS_Store
 *-overriding.properties
-*.json
 *.pyc
 __pycache__
+client_secret.json

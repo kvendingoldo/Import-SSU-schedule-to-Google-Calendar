@@ -4,6 +4,7 @@
 from __future__ import print_function
 import os
 import httplib2
+import json
 
 from apiclient import discovery
 from oauth2client import client
@@ -15,6 +16,10 @@ try:
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
     flags = None
+
+
+with open('config.json', 'r') as f:
+    config = json.load(f)
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
@@ -44,7 +49,7 @@ def get_credentials():
     return credentials
 
 
-def insert(summary, location, desc, start_time, end_time, timezone='Europe/Samara'):
+def insert(summary, location, color, desc, start_time, end_time, timezone='Europe/Samara'):
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
@@ -53,6 +58,7 @@ def insert(summary, location, desc, start_time, end_time, timezone='Europe/Samar
         'summary': summary,
         'location': location,
         'description': desc,
+        'colorId': color,
         'start': {
             'dateTime': start_time,
             'timeZone': timezone,
@@ -62,10 +68,10 @@ def insert(summary, location, desc, start_time, end_time, timezone='Europe/Samar
             'timeZone': timezone,
         },
         'recurrence': [
-            # 'RRULE:FREQ=DAILY;COUNT=2'
+            config['recurrence']
         ],
         'attendees': [
-            # {'email': 'kvendingoldo@gmail.com'},
+            {'email': config['personal_email']},
             # {'email': 'kvendingoldo@gmail.com'},
         ],
         'reminders': {

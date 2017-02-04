@@ -6,6 +6,9 @@ import datetime
 import google_api as ga
 
 
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
 def get_subject_time(day_number, subj_number):
 
     start_time = 0
@@ -50,12 +53,20 @@ def put_to_calc_subj(subj, day_number, subj_number, put_extra_subject=False):
     desc = subj['teacher']
     start_time, end_time = get_subject_time(day_number, subj_number)
 
+    if subj['type'] == "лек.":
+        color = config['lesson_color_id']
+    elif subj['type'] == "пр.":
+        color = config['practice_color_id']
+    elif subj['type'] == "лаб.":
+        color = config['laboratory_work_color_id']
+    else:
+        color = config['default_color']
+
     if subj['other'] == "":
-        #print(summary, location, desc, start_time, end_time)
-        ga.insert(summary, location, desc, start_time, end_time, timezone='Europe/Samara')
+        ga.insert(summary, location, color, desc, start_time, end_time, timezone='Europe/Samara')
 
     if put_extra_subject:
-        ga.insert(summary, location, desc, start_time, end_time, timezone='Europe/Samara')
+        ga.insert(summary, location, color, desc, start_time, end_time, timezone='Europe/Samara')
 
 
 def put_to_calc_day(day, day_number):

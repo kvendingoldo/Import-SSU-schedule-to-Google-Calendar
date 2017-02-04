@@ -17,3 +17,8 @@
       * `[INFO] Event created: LINK3`
       * `...`
    * The schedule will be added starting next Monday.
+   
+   
+##### Google calendar colors:
+
+![google_colors_id](google_colors_id.png)

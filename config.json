@@ -1,0 +1,11 @@
+{
+    "personal_email": "kvendingoldo@gmail.com",
+    "recurrence": "RRULE:FREQ=WEEKLY;COUNT=2",
+    "study_mode": "do",
+    "department": "mm",
+    "group": "313",
+    "lesson_color_id": "10",
+    "practice_color_id": "9",
+    "laboratory_work_color_id": "11",
+    "default_color_id": "1"
+}
