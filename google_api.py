@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-import os
-import httplib2
-import json
 
+import json
+import os
+
+import httplib2
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
@@ -13,20 +14,20 @@ from oauth2client.file import Storage
 
 try:
     import argparse
+
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
     flags = None
 
-
-with open('config.json', 'r') as f:
-    config = json.load(f)
+with open('config.json', 'r') as conf_file:
+    CONFIG = json.load(conf_file)
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
 # We can use https://www.googleapis.com/auth/calendar.readonly for readonly mode
 SCOPES = 'https://www.googleapis.com/auth/calendar'
 CLIENT_SECRET_FILE = 'client_secret.json'
-APPLICATION_NAME = 'Google Calendar API Python Quickstart'
+APPLICATION_NAME = 'Import SSU subject to Google Calendar'
 
 
 def get_credentials():
@@ -34,7 +35,7 @@ def get_credentials():
     credential_dir = os.path.join(home_dir, '.credentials')
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
-    credential_path = os.path.join(credential_dir, 'calendar-python-quickstart.json')
+    credential_path = os.path.join(credential_dir, 'credentials.json')
 
     store = Storage(credential_path)
     credentials = store.get()
@@ -45,7 +46,7 @@ def get_credentials():
             credentials = tools.run_flow(flow, store, flags)
         else:  # Needed only for compatibility with Python 2.6
             credentials = tools.run(flow, store)
-        print('Storing credentials to ' + credential_path)
+        print('[INFO] Storing credentials to ' + credential_path)
     return credentials
 
 
@@ -68,17 +69,22 @@ def insert(summary, location, color, desc, start_time, end_time, timezone='Europ
             'timeZone': timezone,
         },
         'recurrence': [
-            config['recurrence']
+            CONFIG['recurrence']
         ],
         'attendees': [
-            {'email': config['personal_email']},
-            # {'email': 'kvendingoldo@gmail.com'},
+            {'email': CONFIG['personal_email']},
         ],
         'reminders': {
-            'useDefault': False,
+            'useDefault': CONFIG['reminders.useDefault'],
             'overrides': [
-                # {'method': 'email', 'minutes': 24 * 60},
-                # {'method': 'popup', 'minutes': 10},
+                #{
+                #    'method': 'email',
+                #    'minutes': 24 * 60
+                #},
+                {
+                    'method': 'popup',
+                    'minutes': CONFIG['reminder.popup']
+                },
             ],
         },
     }

@@ -25,8 +25,39 @@ def delete_html_tag(raw_html):
     return re.sub(r'<.*?>', '', raw_html)
 
 
-def get_elem_by_class(soup, class_name):
-    return delete_html_tag(str((soup.findAll("div", {"class": class_name})[0])))
+def get_elem_by_class(soup, class_name, index=0):
+    return delete_html_tag(str((soup.findAll("div", {"class": class_name})[index])))
+
+
+def check_couple(data):
+    return data.count('l-pr-r', 0, len(data))
+
+
+def prepare_subject(element):
+
+    soup = BeautifulSoup(str(element), "lxml")
+    subject = dict()
+
+    if check_couple(str(element)) == 2:
+        subject['couple'] = list()
+        for index in range(2):
+            subj = dict()
+            subj['parity'] = get_elem_by_class(soup, "l-pr-r", index)
+            subj['type'] = get_elem_by_class(soup, "l-pr-t", index)
+            subj['other'] = get_elem_by_class(soup, "l-pr-g", index)
+            subj['name'] = get_elem_by_class(soup, "l-dn", index)
+            subj['teacher'] = get_elem_by_class(soup, "l-tn", index)
+            subj['place'] = get_elem_by_class(soup, "l-p", index)
+            subject['couple'].append(subj)
+    else:
+        subject['parity'] = get_elem_by_class(soup, "l-pr-r", 0)
+        subject['type'] = get_elem_by_class(soup, "l-pr-t", 0)
+        subject['other'] = get_elem_by_class(soup, "l-pr-g", 0)
+        subject['name'] = get_elem_by_class(soup, "l-dn", 0)
+        subject['teacher'] = get_elem_by_class(soup, "l-tn", 0)
+        subject['place'] = get_elem_by_class(soup, "l-p", 0)
+
+    return subject
 
 
 def generate_schedule_matrix(url):
@@ -35,29 +66,18 @@ def generate_schedule_matrix(url):
     response = ulib.urlopen(request)
     soup = BeautifulSoup(response, "lxml")
     raw_data = soup.find_all('td', {'id': re.compile(r'\d_\d')})
+    if not raw_data:
+        raise Exception('[ERROR] response is empty')
     matrix = np.empty((10, 7), dtype=object)
     matrix[:] = ""
 
     for element in raw_data:
         pattern = re.compile(r"<td\sclass=\"\"\sid=\"\d_\d\">(.+)</td>")
         if pattern.match(str(element)):
-            soup = BeautifulSoup(str(element), "lxml")
-
-            subject = dict()
-
-            subject['parity'] = get_elem_by_class(soup, "l-pr-r")
-            subject['type'] = get_elem_by_class(soup, "l-pr-t")
-            subject['other'] = get_elem_by_class(soup, "l-pr-g")
-            subject['name'] = get_elem_by_class(soup, "l-dn")
-            subject['teacher'] = get_elem_by_class(soup, "l-tn")
-            subject['place'] = get_elem_by_class(soup, "l-p")
-
+            subject = prepare_subject(element)
             pattrn = re.compile(r'\d_\d')
             subject_number = "".join(pattrn.findall(str(element)))
             i = int(subject_number[0])
             j = int(subject_number[2])
             matrix[i][j] = subject
-        else:
-            pass
-            # print "skip" # write to log
     return matrix.transpose()
