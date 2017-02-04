@@ -72,7 +72,9 @@ hs_err_pid*
 *.iml
 test_data.py
 tmp.json
+client_secret.json
 cookies.txt
 .idea
 .DS_Store
 *-overriding.properties
+.json
