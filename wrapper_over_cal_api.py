@@ -1,10 +1,12 @@
 #!/usr/bin/python3.5
 #  -*- coding: utf-8 -*-
+from __future__ import print_function
 
 import datetime
 import json
 
-import cal_api as ga
+
+import cal_api as ca
 
 with open('config.json', 'r') as conf_file:
     CONFIG = json.load(conf_file)
@@ -77,9 +79,9 @@ def put_subj_to_cal(subj, day_number, subj_number):
         color = CONFIG['color.default']
 
     if subj['other'] == "":
-        ga.insert(summary, location, color, desc, start_time, end_time)
+        ca.insert(summary, location, color, desc, start_time, end_time)
     elif subj['other'] in CONFIG['include.specializations']:
-        ga.insert(summary, location, color, desc, start_time, end_time)
+        ca.insert(summary, location, color, desc, start_time, end_time)
 
 
 def put_day_to_cal(day, day_number):
@@ -89,17 +91,19 @@ def put_day_to_cal(day, day_number):
 
 
 def put_week_to_cal(j_week):
+    print("[INFO] Start loading schedule...")
     week = json.loads(j_week, encoding="utf-8")
     for index in range(0, 6):
         put_day_to_cal((((week['response'])['days'])[index])['subjects'], index)
+    print("[INFO] Loading is finished.")
 
 
 def clear_cal():
     print("[WARNING] Do you really want clean your calendar?(Y/N)")
     ans = input()
-    if ans == "Y" or ans == "y":
+    if ans == "Y" or ans == "YES" or ans == "y" or ans == "yes":
         print("[INFO] Clean started...")
-        ga.clean_primary_cal()
+        ca.clean_calendar(CONFIG['calendarId'])
         print("[INFO] Clean finished")
     else:
         print("[INFO] Clean cancelled")

@@ -26,3 +26,5 @@
    
 #### Appendix
 ![google_colors_id](google_colors_id.png)
+
+* instruction how get `calendarId` [here](https://docs.simplecalendar.io/find-google-calendar-id/)

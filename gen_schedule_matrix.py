@@ -1,10 +1,13 @@
 #!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
 
-import urllib.request as ulib
+from __future__ import print_function
+
 import re
-from bs4 import BeautifulSoup
+import urllib.request as ulib
+
 import numpy as np
+from bs4 import BeautifulSoup
 
 
 def get_time(response):
@@ -34,7 +37,6 @@ def check_unique_subj(data):
 
 
 def prepare_subject(element):
-
     soup = BeautifulSoup(str(element), "lxml")
     subject = dict()
 

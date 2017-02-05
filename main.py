@@ -2,14 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import json
-import sys
 
 import api as api
 import gen_schedule_matrix as gen_matrix
 import wrapper_over_cal_api as wrap
 
 
-def main(argv):
+def main():
     with open('config.json', 'r') as conf_file:
         config = json.load(conf_file)
 
@@ -20,11 +19,8 @@ def main(argv):
     json_week = api.get_week(schedule_matrix)
 
     wrap.clear_cal()
-
-    print("[INFO] Start loading schedule...")
-    #wrap.put_week_to_cal(json_week)
-    print("[INFO] Loading is finished.")
+    wrap.put_week_to_cal(json_week)
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()

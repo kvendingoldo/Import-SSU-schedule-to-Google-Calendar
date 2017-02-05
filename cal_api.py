@@ -15,9 +15,9 @@ from oauth2client.file import Storage
 try:
     import argparse
 
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+    FLAGS = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
-    flags = None
+    FLAGS = None
 
 with open('config.json', 'r') as conf_file:
     CONFIG = json.load(conf_file)
@@ -42,18 +42,22 @@ def get_credentials():
     if not credentials or credentials.invalid:
         flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         flow.user_agent = APPLICATION_NAME
-        if flags:
-            credentials = tools.run_flow(flow, store, flags)
+        if FLAGS:
+            credentials = tools.run_flow(flow, store, FLAGS)
         else:  # Needed only for compatibility with Python 2.6
             credentials = tools.run(flow, store)
         print('[INFO] Storing credentials to ' + credential_path)
     return credentials
 
 
-def insert(summary, location, color, desc, start_time, end_time, timezone=CONFIG['timezone']):
+def get_service():
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
-    service = discovery.build('calendar', 'v3', http=http)
+    return discovery.build('calendar', 'v3', http=http)
+
+
+def insert(summary, location, color, desc, start_time, end_time):
+    service = get_service()
 
     event = {
         'summary': summary,
@@ -62,11 +66,11 @@ def insert(summary, location, color, desc, start_time, end_time, timezone=CONFIG
         'colorId': color,
         'start': {
             'dateTime': start_time,
-            'timeZone': timezone,
+            'timeZone': CONFIG['timezone'],
         },
         'end': {
             'dateTime': end_time,
-            'timeZone': timezone,
+            'timeZone': CONFIG['timezone'],
         },
         'recurrence': [
             CONFIG['recurrence']
@@ -77,10 +81,10 @@ def insert(summary, location, color, desc, start_time, end_time, timezone=CONFIG
         'reminders': {
             'useDefault': CONFIG['reminders.useDefault'],
             'overrides': [
-                #{
+                # {
                 #    'method': 'email',
                 #    'minutes': 24 * 60
-                #},
+                # },
                 {
                     'method': 'popup',
                     'minutes': CONFIG['reminder.popup']
@@ -94,15 +98,10 @@ def insert(summary, location, color, desc, start_time, end_time, timezone=CONFIG
 
 
 def delete_calendar(calendar_id):
-    credentials = get_credentials()
-    http = credentials.authorize(httplib2.Http())
-    service = discovery.build('calendar', 'v3', http=http)
-    service.calendars().delete(calendar_id).execute()
+    service = get_service()
+    service.calendars().delete(calendarId=calendar_id).execute()
 
 
-def clean_primary_cal():
-    credentials = get_credentials()
-    http = credentials.authorize(httplib2.Http())
-    service = discovery.build('calendar', 'v3', http=http)
-    service.calendars().clear('primary').execute()
-
+def clean_calendar(calendar_id):
+    service = get_service()
+    service.calendars().clear(calendarId=calendar_id).execute()
