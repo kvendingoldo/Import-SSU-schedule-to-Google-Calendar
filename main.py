@@ -19,8 +19,10 @@ def main(argv):
                                                           + config['group'])
     json_week = api.get_week(schedule_matrix)
 
+    wrap.clear_cal()
+
     print("[INFO] Start loading schedule...")
-    wrap.put_week_to_cal(json_week)
+    #wrap.put_week_to_cal(json_week)
     print("[INFO] Loading is finished.")
 
 

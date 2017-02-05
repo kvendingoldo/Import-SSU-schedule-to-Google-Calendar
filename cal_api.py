@@ -91,3 +91,18 @@ def insert(summary, location, color, desc, start_time, end_time, timezone=CONFIG
 
     event = service.events().insert(calendarId='primary', body=event).execute()
     print('[INFO] Event created: %s' % (event.get('htmlLink')))
+
+
+def delete_calendar(calendar_id):
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http=http)
+    service.calendars().delete(calendar_id).execute()
+
+
+def clean_primary_cal():
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http=http)
+    service.calendars().clear('primary').execute()
+
