@@ -4,10 +4,10 @@
 import datetime
 import json
 
-import google_api as ga
+import cal_api as ga
 
 with open('config.json', 'r') as conf_file:
-    config = json.load(conf_file)
+    CONFIG = json.load(conf_file)
 
 
 def get_parity():
@@ -51,7 +51,7 @@ def get_subject_time(day_number, subj_number):
     return start_time, end_time
 
 
-def put_to_calc_subj(subj, day_number, subj_number, put_extra_subject=False):
+def put_subj_to_cal(subj, day_number, subj_number):
     parity = get_parity()
 
     if 'couple' in subj:
@@ -66,29 +66,27 @@ def put_to_calc_subj(subj, day_number, subj_number, put_extra_subject=False):
     start_time, end_time = get_subject_time(day_number, subj_number)
 
     if subj['type'] == "лек.":
-        color = config['lesson_color_id']
+        color = CONFIG['color.lesson']
     elif subj['type'] == "пр.":
-        color = config['practice_color_id']
+        color = CONFIG['color.practice']
     elif subj['type'] == "лаб.":
-        color = config['laboratory_work_color_id']
+        color = CONFIG['color.laboratory_work']
     else:
-        color = config['default_color']
+        color = CONFIG['color.default']
 
     if subj['other'] == "":
-        ga.insert(summary, location, color, desc, start_time, end_time, timezone='Europe/Samara')
-
-    if put_extra_subject:
-        # add specializations
-        ga.insert(summary, location, color, desc, start_time, end_time, timezone='Europe/Samara')
+        ga.insert(summary, location, color, desc, start_time, end_time)
+    elif subj['other'] in CONFIG['include.specializations']:
+        ga.insert(summary, location, color, desc, start_time, end_time)
 
 
-def put_to_calc_day(day, day_number):
+def put_day_to_cal(day, day_number):
     for index in range(0, 9):
         if type(day[index]) is dict:
-            put_to_calc_subj(day[index], day_number, index)
+            put_subj_to_cal(day[index], day_number, index)
 
 
-def put_to_calc_week(j_week):
+def put_week_to_cal(j_week):
     week = json.loads(j_week, encoding="utf-8")
     for index in range(0, 6):
-        put_to_calc_day((((week['response'])['days'])[index])['subjects'], index)
+        put_day_to_cal((((week['response'])['days'])[index])['subjects'], index)

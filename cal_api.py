@@ -50,7 +50,7 @@ def get_credentials():
     return credentials
 
 
-def insert(summary, location, color, desc, start_time, end_time, timezone='Europe/Samara'):
+def insert(summary, location, color, desc, start_time, end_time, timezone=CONFIG['timezone']):
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)

@@ -3,13 +3,16 @@
   "department": "mm",
   "group": "313",
 
-  "lesson_color_id": "10",
-  "practice_color_id": "9",
-  "laboratory_work_color_id": "11",
-  "default_color_id": "1",
+  "color.lesson": "10",
+  "color.practice": "9",
+  "color.laboratory_work": "11",
+  "color.default": "1",
+
+  "include.specializations": "",
 
   "personal_email": "kvendingoldo@gmail.com",
   "recurrence": "RRULE:FREQ=WEEKLY;COUNT=2",
+  "timezone": "Europe/Samara",
 
   "reminders.useDefault": "False",
   "reminder.popup": "20"
