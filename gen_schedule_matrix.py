@@ -1,10 +1,13 @@
 #!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
 
-import urllib.request as ulib
+from __future__ import print_function
+
 import re
-from bs4 import BeautifulSoup
+import urllib.request as ulib
+
 import numpy as np
+from bs4 import BeautifulSoup
 
 
 def get_time(response):
@@ -29,16 +32,15 @@ def get_elem_by_class(soup, class_name, index=0):
     return delete_html_tag(str((soup.findAll("div", {"class": class_name})[index])))
 
 
-def check_couple(data):
+def check_unique_subj(data):
     return data.count('l-pr-r', 0, len(data))
 
 
 def prepare_subject(element):
-
     soup = BeautifulSoup(str(element), "lxml")
     subject = dict()
 
-    if check_couple(str(element)) == 2:
+    if check_unique_subj(str(element)) == 2:
         subject['couple'] = list()
         for index in range(2):
             subj = dict()
@@ -50,12 +52,12 @@ def prepare_subject(element):
             subj['place'] = get_elem_by_class(soup, "l-p", index)
             subject['couple'].append(subj)
     else:
-        subject['parity'] = get_elem_by_class(soup, "l-pr-r", 0)
-        subject['type'] = get_elem_by_class(soup, "l-pr-t", 0)
-        subject['other'] = get_elem_by_class(soup, "l-pr-g", 0)
-        subject['name'] = get_elem_by_class(soup, "l-dn", 0)
-        subject['teacher'] = get_elem_by_class(soup, "l-tn", 0)
-        subject['place'] = get_elem_by_class(soup, "l-p", 0)
+        subject['parity'] = get_elem_by_class(soup, "l-pr-r")
+        subject['type'] = get_elem_by_class(soup, "l-pr-t")
+        subject['other'] = get_elem_by_class(soup, "l-pr-g")
+        subject['name'] = get_elem_by_class(soup, "l-dn")
+        subject['teacher'] = get_elem_by_class(soup, "l-tn")
+        subject['place'] = get_elem_by_class(soup, "l-p")
 
     return subject
 
@@ -68,7 +70,7 @@ def generate_schedule_matrix(url):
     raw_data = soup.find_all('td', {'id': re.compile(r'\d_\d')})
     if not raw_data:
         raise Exception('[ERROR] response is empty')
-    matrix = np.empty((10, 7), dtype=object)
+    matrix = np.empty((10, 10), dtype=object)
     matrix[:] = ""
 
     for element in raw_data:

@@ -24,7 +24,6 @@ def get_day(subjects, with_response=True):
 def get_week(raw_week_data):
     response = dict()
     days = dict()
-    # days[u'week'] = week_number
     days[u'days'] = list()
     response[u'response'] = days
 
@@ -43,4 +42,5 @@ def error_response(code):
 
     response = dict()
     response[u'error'] = error
-    return json.dumps(response, ensure_ascii=True, sort_keys=True)
+    return json.dumps(response, ensure_ascii=True, sort_keys=True) \
+        .encode('utf8').decode('unicode-escape')

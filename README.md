@@ -1,4 +1,4 @@
-#### Import-SSU-schedule-to-Google-Calendar
+### Import-SSU-schedule-to-Google-Calendar
 
 ##### Requirements:
 
@@ -14,11 +14,17 @@
    * when main.py will running you are able to see: 
       * `[INFO] Event created: LINK1`
       * `[INFO] Event created: LINK2`
-      * `[INFO] Event created: LINK3`
       * `...`
    * The schedule will be added starting next Monday.
    
-   
-##### Google calendar colors:
 
+#### Configuration:
+* All settings are in `configs.json`
+* ##### Examples of specializations:
+    * `"include.specializations": "1-C web-дизайн"`
+    * `"include.specializations": "переводчики перев. 2"`
+   
+#### Appendix
 ![google_colors_id](google_colors_id.png)
+
+* instruction how get `calendarId` [here](https://docs.simplecalendar.io/find-google-calendar-id/)
