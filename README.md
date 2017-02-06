@@ -18,13 +18,40 @@
    * The schedule will be added starting next Monday.
    
 
-#### Configuration:
+### Configuration:
 * All settings are in `configs.json`
-* ##### Examples of specializations:
-    * `"include.specializations": "1-C web-дизайн"`
-    * `"include.specializations": "переводчики перев. 2"`
+
+* Config parameters:
+    * `"study_mode"` : can be `do` or `zo`
+    * `"department"` : your study department 
+    * `"group"` : your study group 
+
+    * Colors parameters like `color.lesson`: You can get color code below(in image). If field is empty will be used `color.default` parameter.
+        * examples:
+            * `"color.lesson": "5"`
+            * `"color.laboratory_work": "9"`
+    
+    * Specializations: If you have extra subjects you can include them to your calendar by `"include.specializations"`
+        * examples:
+            * `"include.specializations": "1-C web-дизайн"`
+            * `"include.specializations": "перев. 2"`
+    
+    * Calendar parameters:
+        * `"personal_email"` : your personal email which will be added to event. Can be empty.
+        * `"recurrence"` : 
+            * example on two weeks `"RRULE:FREQ=WEEKLY;COUNT=2"`
+        * `"timezone"`
+            * by default used `UTC+4` timezone (`"Europe/Samara"`)
+
+        * `"calendarId"` : calendar for using.
+            * by default used `"primary"` which is `your_email@gmail.com` calendar
+            * instruction how get `calendarId` [here](https://docs.simplecalendar.io/find-google-calendar-id/)
+
+        * `"reminders.useDefault"` : default google reminders. Can be `True/False`.
+        * `"reminder.popup"` : popup behind N minutes
+            * example: `"reminder.popup": "20"`
+        
    
 #### Appendix
 ![google_colors_id](google_colors_id.png)
 
-* instruction how get `calendarId` [here](https://docs.simplecalendar.io/find-google-calendar-id/)
