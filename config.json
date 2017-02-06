@@ -2,20 +2,17 @@
   "study_mode": "do",
   "department": "mm",
   "group": "313",
-
   "color.lesson": "7",
   "color.practice": "10",
   "color.laboratory_work": "11",
   "color.default": "1",
-
   "include.specializations": "",
-
   "personal_email": "kvendingoldo@gmail.com",
-  "recurrence": "RRULE:FREQ=WEEKLY;COUNT=10",
+  "recurrence.freq": "WEEKLY",
+  "recurrence.count": "10",
   "timezone": "Europe/Samara",
-
   "calendarId": "primary",
-
-  "reminders.useDefault": "False",
-  "reminder.popup": "20"
+  "reminder.useDefault": "False",
+  "reminder.popup": "20",
+  "system.calendar.interval": "1"
 }

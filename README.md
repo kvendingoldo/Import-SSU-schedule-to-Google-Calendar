@@ -39,7 +39,8 @@
     * Calendar parameters:
         * `"personal_email"` : your personal email which will be added to event. Can be empty.
         * `"recurrence"` : 
-            * example on two weeks `"RRULE:FREQ=WEEKLY;COUNT=2"`
+        * `"recurrence.freq"` : can be `WEEKLY` or `DAILY`
+        * `"recurrence.count"` : count of week
         * `"timezone"`
             * by default used `UTC+4` timezone (`"Europe/Samara"`)
 
@@ -47,11 +48,14 @@
             * by default used `"primary"` which is `your_email@gmail.com` calendar
             * instruction how get `calendarId` [here](https://docs.simplecalendar.io/find-google-calendar-id/)
 
-        * `"reminders.useDefault"` : default google reminders. Can be `True/False`.
+        * `"reminder.useDefault"` : default google reminders. Can be `True/False`.
         * `"reminder.popup"` : popup behind N minutes
             * example: `"reminder.popup": "20"`
+        * `"system.calendar.interval"` : system parameter
         
    
 #### Appendix
 ![google_colors_id](google_colors_id.png)
 
+#### Useful links
+[recurring_events API](https://developers.google.com/google-apps/calendar/concepts/events-calendars#recurring_events)

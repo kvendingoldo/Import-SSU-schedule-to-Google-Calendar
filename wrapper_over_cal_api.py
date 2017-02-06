@@ -1,27 +1,27 @@
 #!/usr/bin/python3.5
-#  -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+# @Author: Alexander Sharov
+
 from __future__ import print_function
 
 import datetime
 import json
 
-
 import cal_api as ca
+import config_control as cfg
+from parity import get_parity, get_opposite_parity
 
-with open('config.json', 'r') as conf_file:
-    CONFIG = json.load(conf_file)
-
-
-def get_parity():
-    return "числ."
+CONFIG = cfg.load()
+timedelta = 7
 
 
 def get_subject_time(day_number, subj_number):
     start_time = 0
     end_time = 0
 
+    global timedelta
     date = datetime.datetime.now().date()
-    day = str(date + datetime.timedelta(day_number + 7 - date.weekday())) + "T"
+    day = str(date + datetime.timedelta(day_number + timedelta - date.weekday())) + "T"
 
     if subj_number == 1:
         start_time = day + "08:20"
@@ -52,12 +52,10 @@ def get_subject_time(day_number, subj_number):
 
     appendix = ":00.000000"
 
-    return start_time+appendix, end_time+appendix
+    return start_time + appendix, end_time + appendix
 
 
-def put_subj_to_cal(subj, day_number, subj_number):
-    parity = get_parity()
-
+def put_subj_to_cal(subj, day_number, subj_number, parity):
     if 'couple' in subj:
         if parity == "числ.":
             subj = (subj['couple'])[0]
@@ -84,17 +82,35 @@ def put_subj_to_cal(subj, day_number, subj_number):
         ca.insert(summary, location, color, desc, start_time, end_time)
 
 
-def put_day_to_cal(day, day_number):
+def put_day_to_cal(day, day_number, parity):
     for index in range(0, 9):
         if type(day[index]) is dict:
-            put_subj_to_cal(day[index], day_number, index)
+            put_subj_to_cal(day[index], day_number, index, parity)
 
 
 def put_week_to_cal(j_week):
     print("[INFO] Start loading schedule...")
+    global timedelta, CONFIG
     week = json.loads(j_week, encoding="utf-8")
-    for index in range(0, 6):
-        put_day_to_cal((((week['response'])['days'])[index])['subjects'], index)
+    parity = get_parity()
+    if (int)(CONFIG['recurrence.count']) > 1:
+
+        cfg.upd_par("system.calendar.interval", "2")
+        CONFIG = cfg.reload()
+
+        for index in range(0, 6):
+            put_day_to_cal((((week['response'])['days'])[index])['subjects'], index, parity)
+
+        timedelta = 14
+        for index in range(0, 6):
+            put_day_to_cal((((week['response'])['days'])[index])['subjects'], index, get_opposite_parity())
+
+        # return default timedelta and system.calendar.interval
+        timedelta = 7
+        cfg.upd_par("system.calendar.interval", "1")
+    else:
+        for index in range(0, 6):
+            put_day_to_cal((((week['response'])['days'])[index])['subjects'], index, parity)
     print("[INFO] Loading is finished.")
 
 

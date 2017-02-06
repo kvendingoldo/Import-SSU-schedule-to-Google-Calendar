@@ -1,9 +1,9 @@
 #!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
+# @Author: Alexander Sharov
 
 from __future__ import print_function
 
-import json
 import os
 
 import httplib2
@@ -12,15 +12,14 @@ from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 
+import config_control as cfg
+
 try:
     import argparse
 
     FLAGS = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
     FLAGS = None
-
-with open('config.json', 'r') as conf_file:
-    CONFIG = json.load(conf_file)
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
@@ -58,6 +57,7 @@ def get_service():
 
 def insert(summary, location, color, desc, start_time, end_time):
     service = get_service()
+    config = cfg.load()
 
     event = {
         'summary': summary,
@@ -66,20 +66,20 @@ def insert(summary, location, color, desc, start_time, end_time):
         'colorId': color,
         'start': {
             'dateTime': start_time,
-            'timeZone': CONFIG['timezone'],
+            'timeZone': config['timezone'],
         },
         'end': {
             'dateTime': end_time,
-            'timeZone': CONFIG['timezone'],
+            'timeZone': config['timezone'],
         },
         'recurrence': [
-            CONFIG['recurrence']
+            "RRULE:FREQ=" + config['recurrence.freq'] + ";COUNT=" + config['recurrence.count'] + ";INTERVAL=" + config['system.calendar.interval']
         ],
         'attendees': [
-            {'email': CONFIG['personal_email']},
+            {'email': config['personal_email']},
         ],
         'reminders': {
-            'useDefault': CONFIG['reminders.useDefault'],
+            'useDefault': config['reminder.useDefault'],
             'overrides': [
                 # {
                 #    'method': 'email',
@@ -87,7 +87,7 @@ def insert(summary, location, color, desc, start_time, end_time):
                 # },
                 {
                     'method': 'popup',
-                    'minutes': CONFIG['reminder.popup']
+                    'minutes': config['reminder.popup']
                 },
             ],
         },
