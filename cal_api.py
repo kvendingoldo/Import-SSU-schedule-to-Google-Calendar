@@ -55,7 +55,7 @@ def get_service():
     return discovery.build('calendar', 'v3', http=http)
 
 
-def insert(summary, location, color, desc, start_time, end_time):
+def insert(summary, location, color, desc, start_time, end_time, calendar_id):
     service = get_service()
     config = cfg.load()
 
@@ -93,7 +93,7 @@ def insert(summary, location, color, desc, start_time, end_time):
         },
     }
 
-    event = service.events().insert(calendarId='primary', body=event).execute()
+    event = service.events().insert(calendarId=calendar_id, body=event).execute()
     print('[INFO] Event created: %s' % (event.get('htmlLink')))
 
 
@@ -102,6 +102,9 @@ def delete_calendar(calendar_id):
     service.calendars().delete(calendarId=calendar_id).execute()
 
 
-def clean_calendar(calendar_id):
+def clean_primary_calendar():
     service = get_service()
-    service.calendars().clear(calendarId=calendar_id).execute()
+    service.calendars().clear(calendarId='primary').execute()
+
+def clean_calendar(calendar_id):
+    pass

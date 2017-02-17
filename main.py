@@ -17,8 +17,9 @@ def main():
                                                           + config['group'])
     json_week = api.get_week(schedule_matrix)
 
-    wrap.clear_cal()
-    wrap.put_week_to_cal(json_week)
+    print(json_week)
+    #wrap.clear_cal()
+    #wrap.put_week_to_cal(json_week)
 
 
 if __name__ == "__main__":
