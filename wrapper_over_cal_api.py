@@ -12,16 +12,16 @@ import config_control as cfg
 from parity import get_parity, get_opposite_parity
 
 CONFIG = cfg.load()
-timedelta = 7
+timedelta = 0
 
 
-def get_subject_time(day_number, subj_number):
+def get_subject_time(subj_day_number, subj_number):
     start_time = 0
     end_time = 0
 
     global timedelta
     date = datetime.datetime.now().date()
-    day = str(date + datetime.timedelta(day_number + timedelta - date.weekday())) + "T"
+    day = str(date + datetime.timedelta(subj_day_number + timedelta - date.weekday())) + "T"
 
     if subj_number == 1:
         start_time = day + "08:20"
@@ -62,6 +62,8 @@ def put_subj_to_cal(subj, day_number, subj_number, parity):
         else:
             subj = (subj['couple'])[1]
 
+    print(parity)
+
     summary = subj['name'] + " (" + subj['type'] + ")"
     location = subj['place']
     desc = subj['teacher']
@@ -77,9 +79,9 @@ def put_subj_to_cal(subj, day_number, subj_number, parity):
         color = CONFIG['color.default']
 
     if subj['other'] == "":
-        ca.insert(summary, location, color, desc, start_time, end_time)
+        ca.insert(summary, location, color, desc, start_time, end_time, CONFIG['calendarId'])
     elif subj['other'] in CONFIG['include.specializations']:
-        ca.insert(summary, location, color, desc, start_time, end_time)
+        ca.insert(summary, location, color, desc, start_time, end_time, CONFIG['calendarId'])
 
 
 def put_day_to_cal(day, day_number, parity):
@@ -101,12 +103,12 @@ def put_week_to_cal(j_week):
         for index in range(0, 6):
             put_day_to_cal((((week['response'])['days'])[index])['subjects'], index, parity)
 
-        timedelta = 14
+        timedelta = 7
         for index in range(0, 6):
             put_day_to_cal((((week['response'])['days'])[index])['subjects'], index, get_opposite_parity())
 
         # return default timedelta and system.calendar.interval
-        timedelta = 7
+        timedelta = 0
         cfg.upd_par("system.calendar.interval", "1")
     else:
         for index in range(0, 6):
@@ -119,7 +121,7 @@ def clear_cal():
     ans = input()
     if ans == "Y" or ans == "YES" or ans == "y" or ans == "yes":
         print("[INFO] Clean started...")
-        ca.clean_calendar(CONFIG['calendarId'])
+        ca.clean_primary_calendar(CONFIG['calendarId'])
         print("[INFO] Clean finished")
     else:
         print("[INFO] Clean cancelled")
