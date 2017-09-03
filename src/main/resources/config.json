@@ -4,15 +4,16 @@
   "color.default": "1",
   "recurrence.count": "10",
   "system.calendar.interval": "1",
-  "calendarId": "kcam0cndcj2ommmd44m4n64ksg@group.calendar.google.com",
+  "calendarId": "gl1e5glr6igaolicv7qsfn4uno@group.calendar.google.com",
   "reminder.useDefault": "False",
   "study_mode": "do",
   "color.laboratory_work": "11",
-  "group": "313",
+  "group": "413",
   "include.specializations": "",
   "department": "mm",
   "color.lesson": "7",
   "recurrence.freq": "WEEKLY",
   "personal_email": "kvendingoldo@gmail.com",
-  "color.practice": "10"
+  "color.practice": "10",
+  "path_to_creds": "resources/client_secret.json"
 }

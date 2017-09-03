@@ -24,8 +24,9 @@ except ImportError:
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
 # We can use https://www.googleapis.com/auth/calendar.readonly for readonly mode
+CONFIG = cfg.load()
 SCOPES = 'https://www.googleapis.com/auth/calendar'
-CLIENT_SECRET_FILE = 'client_secret.json'
+CLIENT_SECRET_FILE = CONFIG['path_to_creds']
 APPLICATION_NAME = 'Import SSU subject to Google Calendar'
 
 
