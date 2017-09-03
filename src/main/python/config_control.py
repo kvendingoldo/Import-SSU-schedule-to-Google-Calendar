@@ -6,7 +6,7 @@ from __future__ import print_function
 
 import json
 
-FILE = "config.json"
+FILE = "resources/config.json"
 
 
 def load():
