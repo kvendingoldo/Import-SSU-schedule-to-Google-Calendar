@@ -4,16 +4,16 @@
   "color.default": "1",
   "recurrence.count": "10",
   "system.calendar.interval": "1",
-  "calendarId": "gl1e5glr6igaolicv7qsfn4uno@group.calendar.google.com",
+  "calendarId": "hjmvtijjefaeht6duaka50hmo4@group.calendar.google.com",
   "reminder.useDefault": "False",
   "study_mode": "do",
   "color.laboratory_work": "11",
-  "group": "413",
+  "group": "171",
   "include.specializations": "",
-  "department": "mm",
+  "department": "knt",
   "color.lesson": "7",
   "recurrence.freq": "WEEKLY",
   "personal_email": "kvendingoldo@gmail.com",
   "color.practice": "10",
-  "path_to_creds": "resources/client_secret.json"
+  "path_to_creds": "/Users/alex/Import-SSU-schedule-to-Google-Calendar/src/resources/credentials.json"
 }

@@ -6,16 +6,18 @@ from __future__ import print_function
 
 import re
 import urllib.request as ulib
-
 import numpy as np
+
 from bs4 import BeautifulSoup
+
+from utils import json_view as jw
 
 
 def get_time(response):
-    soup = BeautifulSoup(response, "lxml")
+    soup = BeautifulSoup(response, 'lxml')
     tmp = str(soup.findAll('th'))
 
-    soup = BeautifulSoup(tmp, "lxml")
+    soup = BeautifulSoup(tmp, 'lxml')
     invalid_tags = ['html', 'body', 'p', 'th']
 
     for tag in invalid_tags:
@@ -63,7 +65,7 @@ def prepare_subject(element):
     return subject
 
 
-def generate_schedule_matrix(url):
+def generate(url):
     request = ulib.Request(url)
     request.add_header('Accept-Encoding', 'utf-8')
     response = ulib.urlopen(request)
@@ -83,4 +85,5 @@ def generate_schedule_matrix(url):
             i = int(subject_number[0])
             j = int(subject_number[2])
             matrix[i][j] = subject
-    return matrix.transpose()
+
+    return jw.get_week(matrix.transpose())

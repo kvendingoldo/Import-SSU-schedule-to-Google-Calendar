@@ -6,11 +6,11 @@ import datetime
 from math import floor
 
 
-def get_parity(current_day=datetime.datetime.now().day):
+def get(current_day=datetime.datetime.now().day):
     """This function is my modification of SSU Parity logic (https://github.com/vadim8kiselev/ssu-parity)
     written by @vadim8kiselev"""
 
-    parity = "знам."
+    parity = 'знам.'
     now = datetime.datetime.now()
     current_month = now.month
     current_year = now.year
@@ -32,28 +32,28 @@ def get_parity(current_day=datetime.datetime.now().day):
     count_full_week_after_ny = floor((datetime.date.today() - datetime.date(current_year, 1, 1)).days / 7)
 
     if current_month > 9 and count_full_week_before_ny % 2 != 0:
-        parity = "числ."
+        parity = 'числ.'
     elif current_month == 9:
         if current_day >= date_first_monday_in_september and count_full_week_before_ny % 2 != 0:
-            parity = "числ."
+            parity = 'числ.'
         elif current_day < date_first_monday_in_september:
-            parity = "числ."
+            parity = 'числ.'
     elif current_month < 9:
         if current_month <= 5 and current_month >= 1:
             if (current_month == 1) and (current_day < date_first_monday_in_january):
                 if date_first_monday_in_september == 1 or day_first_of_september > 5:
-                    parity = "числ."
+                    parity = 'числ.'
             elif count_full_week_after_ny % 2 == 0:
-                parity = "числ."
+                parity = 'числ.'
         elif current_month > 5:
-            parity = "summer"
+            parity = 'summer'
 
     return parity
 
 
-def get_opposite_parity():
-    parity = get_parity()
-    if parity == "знам.":
-        return "числ."
+def get_opposite():
+    parity = get()
+    if parity == 'знам.':
+        return 'числ.'
     else:
-        return "знам."
+        return 'знам.'
