@@ -34,7 +34,8 @@ class Calendar(object):
         store = file.Storage('token.json')
         creds = store.get()
         if not creds or creds.invalid:
-            flow = client.flow_from_clientsecrets(self.config.data['path_to_creds'], 'https://www.googleapis.com/auth/calendar.readonly')
+            flow = client.flow_from_clientsecrets(self.config.data['path_to_creds'],
+                                                  'https://www.googleapis.com/auth/calendar')
             creds = tools.run_flow(flow, store)
         self.service = build('calendar', 'v3', http=creds.authorize(Http()))
 
@@ -171,12 +172,16 @@ class Calendar(object):
                 self.put_day((((week['response'])['days'])[index])['subjects'], index, parity)
         print('[INFO] Loading is finished.')
 
-    def clear_cal(self):
-        print('[WARNING] Do you really want clean your calendar?(Y/N)')
-        ans = input()
-        if ans == 'Y' or ans == 'YES' or ans == 'y' or ans == 'yes':
+    def clear_primary(self):
+        self.clear('primary')
+
+    def clear(self, calendar_id):
+        print(calendar_id)
+        print('[WARNING] Do you really want clean your %s calendar?(Y/N)' % calendar_id)
+        answer = input()
+        if answer == 'Y' or answer == 'YES' or answer == 'y' or answer == 'yes':
             print('[INFO] Clean started...')
-            self.service.calendars().clear(calendarId='primary').execute()
+            self.service.calendars().delete(calendarId=calendar_id).execute()
             print('[INFO] Clean finished.')
         else:
             print('[INFO] Clean cancelled.')

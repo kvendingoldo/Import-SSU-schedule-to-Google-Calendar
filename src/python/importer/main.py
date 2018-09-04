@@ -6,6 +6,7 @@ from entity import config as cfg
 from entity import calendar as cal
 from generator import schedule as sch
 
+
 def main():
     config = cfg.Config()
     calendar = cal.Calendar(configuration=config)
@@ -13,7 +14,7 @@ def main():
     schedule = sch.generate('http://www.sgu.ru/schedule/%s/%s/%s' % (
         config.data['department'], config.data['study_mode'], config.data['group']))
 
-    #calendar.clear_cal()
+    #calendar.clear(config.data['calendarId'])
     calendar.put_week(schedule)
 
 

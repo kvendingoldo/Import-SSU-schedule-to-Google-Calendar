@@ -40,27 +40,27 @@ def check_unique_subj(data):
 
 
 def prepare_subject(element):
-    soup = BeautifulSoup(str(element), "lxml")
+    soup = BeautifulSoup(str(element), 'lxml')
     subject = dict()
 
     if check_unique_subj(str(element)) == 2:
         subject['couple'] = list()
         for index in range(2):
             subj = dict()
-            subj['parity'] = get_elem_by_class(soup, "l-pr-r", index)
-            subj['type'] = get_elem_by_class(soup, "l-pr-t", index)
-            subj['other'] = get_elem_by_class(soup, "l-pr-g", index)
-            subj['name'] = get_elem_by_class(soup, "l-dn", index)
-            subj['teacher'] = get_elem_by_class(soup, "l-tn", index)
-            subj['place'] = get_elem_by_class(soup, "l-p", index)
+            subj['parity'] = get_elem_by_class(soup, 'l-pr-r', index)
+            subj['type'] = get_elem_by_class(soup, 'l-pr-t', index)
+            subj['other'] = get_elem_by_class(soup, 'l-pr-g', index)
+            subj['name'] = get_elem_by_class(soup, 'l-dn', index)
+            subj['teacher'] = get_elem_by_class(soup, 'l-tn', index)
+            subj['place'] = get_elem_by_class(soup, 'l-p', index)
             subject['couple'].append(subj)
     else:
-        subject['parity'] = get_elem_by_class(soup, "l-pr-r")
-        subject['type'] = get_elem_by_class(soup, "l-pr-t")
-        subject['other'] = get_elem_by_class(soup, "l-pr-g")
-        subject['name'] = get_elem_by_class(soup, "l-dn")
-        subject['teacher'] = get_elem_by_class(soup, "l-tn")
-        subject['place'] = get_elem_by_class(soup, "l-p")
+        subject['parity'] = get_elem_by_class(soup, 'l-pr-r')
+        subject['type'] = get_elem_by_class(soup, 'l-pr-t')
+        subject['other'] = get_elem_by_class(soup, 'l-pr-g')
+        subject['name'] = get_elem_by_class(soup, 'l-dn')
+        subject['teacher'] = get_elem_by_class(soup, 'l-tn')
+        subject['place'] = get_elem_by_class(soup, 'l-p')
 
     return subject
 
@@ -69,7 +69,7 @@ def generate(url):
     request = ulib.Request(url)
     request.add_header('Accept-Encoding', 'utf-8')
     response = ulib.urlopen(request)
-    soup = BeautifulSoup(response, "lxml")
+    soup = BeautifulSoup(response, 'lxml')
     raw_data = soup.find_all('td', {'id': re.compile(r'\d_\d')})
     if not raw_data:
         raise Exception('[ERROR] response is empty')
@@ -81,7 +81,7 @@ def generate(url):
         if pattern.match(str(element)):
             subject = prepare_subject(element)
             pattrn = re.compile(r'\d_\d')
-            subject_number = "".join(pattrn.findall(str(element)))
+            subject_number = ''.join(pattrn.findall(str(element)))
             i = int(subject_number[0])
             j = int(subject_number[2])
             matrix[i][j] = subject

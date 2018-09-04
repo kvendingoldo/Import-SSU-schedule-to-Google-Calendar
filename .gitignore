@@ -23,4 +23,5 @@ __pycache__
 
 ### Files
 cookies.*
-client_secret.json
+credentials.json
+token.json
