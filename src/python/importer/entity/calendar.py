@@ -4,10 +4,10 @@
 
 from __future__ import print_function
 
-import datetime
+import uuid
 import json
-
 import datetime
+
 from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
@@ -126,6 +126,8 @@ class Calendar(object):
             'attendees': [
                 {'email': self.config.data['personal_email']},
             ],
+            'iCalUID': str(uuid.uuid4()),
+            'status': 'confirmed',
             'reminders': {
                 'useDefault': self.config.data['reminder.useDefault'],
                 'overrides': [
@@ -141,7 +143,7 @@ class Calendar(object):
             },
         }
 
-        event = self.service.events().insert(calendarId=self.config.data['calendarId'], body=event).execute()
+        event = self.service.events().import_(calendarId=self.config.data['calendarId'], body=event).execute()
         print('[INFO] Event created: %s' % (event.get('htmlLink')))
 
     def put_day(self, day, day_number, parity):

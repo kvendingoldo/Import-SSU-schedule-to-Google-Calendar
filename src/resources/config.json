@@ -4,7 +4,7 @@
   "color.default": "1",
   "recurrence.count": "10",
   "system.calendar.interval": "1",
-  "calendarId": "<calendar ID>",
+  "calendarId": "<calendar_id>",
   "reminder.useDefault": "False",
   "study_mode": "do",
   "color.laboratory_work": "11",
@@ -13,7 +13,7 @@
   "department": "knt",
   "color.lesson": "7",
   "recurrence.freq": "WEEKLY",
-  "personal_email": "<personal email>",
+  "personal_email": "<email>",
   "color.practice": "10",
   "path_to_creds": "<path to credentials.json>"
 }

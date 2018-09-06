@@ -14,7 +14,7 @@ def main():
     schedule = sch.generate('http://www.sgu.ru/schedule/%s/%s/%s' % (
         config.data['department'], config.data['study_mode'], config.data['group']))
 
-    #calendar.clear(config.data['calendarId'])
+    # calendar.clear(config.data['calendarId'])
     calendar.put_week(schedule)
 
 
